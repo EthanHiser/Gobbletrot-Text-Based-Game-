@@ -12,7 +12,8 @@ def intro():
 intro()
 
 def encounter_005():
-	print("5")
+	ui = None
+	print(f"To your left")
 
 def encounter_001_ParkingLot():
 	ui = None
@@ -61,16 +62,17 @@ def encounter_002trade():
 	else:
 		print(f"You walk towards the wooden pen vendor, but then remeber you've already traded with him.")
 		encounter_004_MallEntrance()
-	while ui != "trade":
+	while ui != "trade" or "yes" or "y":
 		ui = input()
-		if ui == "trade":
+		if ui == "trade" or "yes" or "y":
 			print(f"\nYou explain your quest to the elderly man behind the stand. He looks at you with a confused face then laughs\nsaying \"Sure buddy, I'm sure a paperclip is going to bring you real far. You can have this old pen, it's nearly outta ink anyways.\"\n")
 			inventory.remove("Red Paperclip")
 			inventory.append("Wooden Pen")
 			print(f"+ Wooden Pen\n- Red Paperclip\n")
 			e_002trade = 1
+			encounter_004_MallEntrance()
 		else:
-			print(f"\n\"{ui}\" is not valid right now, try typing \"trade\"")
+			print(f"\n\"{ui}\" is not valid right now, try typing \"trade\" or \"yes\"")
 			print()
 
 def encounter_003_ScrapArea():
@@ -107,6 +109,8 @@ def encounter_003_ScrapArea():
 				print(f"+Louis Vittion Bag\n-Koi")
 			else:
 				print(f"Currently you have nothing to give to the greyhound.")
+		elif ui == "inventory":
+			print(f"\n{inventory}\n")
 		else:
 			print(f"\n\"{ui}\" is either not an option or not valid right now!")
 
@@ -118,7 +122,9 @@ def encounter_004_MallEntrance():
 		if ui == "north":
 			encounter_005()
 		elif ui == "south":
-			encounter_002trade()
+			encounter_002_FarmersMarket()
+		elif ui == "inventory":
+			print(f"\n{inventory}\n")
 		else:
 			print(f"\n\"{ui}\" is either not an option or not valid right now!")
 
