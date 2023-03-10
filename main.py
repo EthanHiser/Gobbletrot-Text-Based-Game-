@@ -5,21 +5,63 @@ e_002FarmersMarket = None
 e_002trade = None
 e_003ScrapArea = None
 e_003trade = None
+e_004inorout = None
+e_006SeesCandy = None
+floor = 1
+
+def map():
+	global floor
+	if floor == 1:
+		print(f"""\nmap1\n""")
+	else:
+		print(f"""\nmap2\n""")
+
 def intro():
 	global ui
-	first = input(f"""-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n	Welcome to Red Paperclip\n\n A trading game where you use your red paperclip\nto get bigger and better items.\n\nYour in-game commands: "north", "south", "east",\n "west", "grab", "trade", and "interact"\n\n				    Have fun!\n\n	/// Press enter to continue. ///\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n""")
+	first = input(f"""-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n	Welcome to Red Paperclip\n\n A trading game where you use your red paperclip\nto get bigger and better items.\n\nYour in-game commands: "north", "south", "east",\n "west", "grab", "inventory", "map", "trade", and "interact"\n\n				    Have fun!\n\n	/// Press enter to continue. ///\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n""")
 	print()
 intro()
 
+def encounter_006_SeesCandy():
+	ui = None
+	global inventory
+	global e_006SeesCandy
+	if e_006SeesCandy != 1:
+		print(f"You enter the See's Candy store and tell your objective to the lady behind the counter.\nShe explains to you that she doesn't have the authority to make a \"trade\" with you.\nShe can offer a free dark chocolate sample though.")
+		inventory.append(f"Dark Chocolate Sample")
+		print(f"\n+ Dark Chocolate Sample\n")
+		e_006SeesCandy = 1
+		print(f"You leave the shop.")
+		encounter_005()
+	else:
+		print(f"You approach the See's candy but then remember that you've already recieved a free sample from them.")
+
+def encounter_007():
+	print("7")
+
 def encounter_005():
 	ui = None
-	print(f"To your left")
+	print(f"To your left you see a See's Candy store.")
+	while ui != "north":
+		ui = input()
+		if ui == "north":
+			encounter_007()
+		elif ui == "south":
+			encounter_004_MallEntrance()
+		elif ui == "west":
+			encounter_006_SeesCandy()
+		elif ui == "inventory":
+			print(f"\n{inventory}\n")
+		elif ui == "map":
+			map()
+		else:
+			print(f"\n\"{ui}\" is either not an option or not valid right now!")
 
 def encounter_001_ParkingLot():
 	ui = None
 	global e_001ParkingLot
 	if e_001ParkingLot != 1:
-		print(f"You close the door of your old sedan and turn towards the Carlsen Mall, in front of it the weekend's farmer's market.\nYou have nothing but a red paperclip.")
+		print(f"You close the door of your old sedan and turn towards the Carlsen Mall, in front of it the weekend's farmers' market.\nYou have nothing but a red paperclip.")
 	else:
 		print(f"\nYou are back at the parking lot next to your car.")
 	while ui != "north":
@@ -29,6 +71,8 @@ def encounter_001_ParkingLot():
 			encounter_002_FarmersMarket()
 		elif ui == "inventory":
 			print(f"\n{inventory}\n")
+		elif ui == "map":
+			map()
 		else:
 			print(f"\n\"{ui}\" is either not an option or not valid right now!")
 			print()
@@ -36,8 +80,10 @@ def encounter_001_ParkingLot():
 def encounter_002_FarmersMarket():
 	ui = None
 	global e_002FarmersMarket
+	global e_004inorout
+	e_004inorout = None
 	if e_002FarmersMarket != 1:
-		print(f"You enter the farmer's market. Around you there are vendors selling fresh fruits, hand-made clothing, and other knick-knacks.")
+		print(f"You enter the farmers' market. Around you there are vendors selling fresh fruits, hand-made clothing, and other knick-knacks.")
 	while ui != "north":
 		ui = input()
 		if ui == "north":
@@ -50,6 +96,8 @@ def encounter_002_FarmersMarket():
 			encounter_002trade()
 		elif ui == "inventory":
 			print(f"\n{inventory}\n")
+		elif ui == "map":
+			map()
 		else:
 			print(f"\n\"{ui}\" is either not an option or not valid right now!")
 
@@ -106,17 +154,24 @@ def encounter_003_ScrapArea():
 				print(f"You hand the shimmering koi to the scrawny greyhound. It takes the fish and canters back to its makeshift den.\nFollowing it you find bitten children's toys and tattered shoes, but in the center a large Louis Vittion bag.\n")
 				inventory.remove("Koi")
 				inventory.append("Louis Vittion Bag")
-				print(f"+Louis Vittion Bag\n-Koi")
+				print(f"+ Louis Vittion Bag\n- Koi")
 			else:
 				print(f"Currently you have nothing to give to the greyhound.")
 		elif ui == "inventory":
 			print(f"\n{inventory}\n")
+		elif ui == "map":
+			map()
 		else:
 			print(f"\n\"{ui}\" is either not an option or not valid right now!")
 
 def encounter_004_MallEntrance():
+	global e_004inorout
 	ui = None
-	print(f"You enter the mall through its automatic double doors and see people busy with their day and shops lively with bussiness.")
+	if e_004inorout != 1:
+		print(f"You enter the mall through its automatic double doors and see people busy with their day and shops lively with bussiness.")
+		e_004inorout = 1
+	else:
+		print(f"You walk towards the doors of the mall, facing the exit. You see the farmers' market through the glass doors.")
 	while ui != "north":
 		ui = input()
 		if ui == "north":
@@ -125,6 +180,8 @@ def encounter_004_MallEntrance():
 			encounter_002_FarmersMarket()
 		elif ui == "inventory":
 			print(f"\n{inventory}\n")
+		elif ui == "map":
+			map()
 		else:
 			print(f"\n\"{ui}\" is either not an option or not valid right now!")
 
