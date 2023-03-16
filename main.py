@@ -7,7 +7,40 @@ e_003ScrapArea = None
 e_003trade = None
 e_004inorout = None
 e_006SeesCandy = None
+e_007trade = None
 floor = 1
+
+def encounter_007_SportingGoods():
+	ui = None
+	global inventory
+	global e_007trade
+	if e_007trade != 1:
+		print(f"You enter a local sporting goods store, the employee motions for you to go towards the counter.\nHe asks you \"Hey, do you see that guy over there? He's local basketball legend ShraBaum DeShaum!\nI've always wanted to get his autograph, do you have a pen?\"")
+		ui = input()
+		while ui != "west":
+			if ui == "map":
+				map()
+			elif ui == "inventory":
+				print(f"{inventory}")
+			elif ui == "west":
+				encounter_005()
+			elif ui == "yes" or "y" or "trade":
+				if "Wooden Pen" or "Employee's Pen" in inventory:
+					print(f"You hand your pen to the employee, he exclaims \"Yes! Thank you, uh... here, have this!\"")
+					print(f"\n+ Collapsable Fishing Rod\n- Pen")
+					inventory.append("Collapsable Fishing Rod")
+					if "Wooden Pen" in inventory:
+						inventory.remove("Wooden Pen")
+						e_007trade = 1
+					else:
+						inventory.remove("Employee's Pen")
+						e_007trade = 1
+				else:
+					print(f"You unfortunately do not have a pen to give to the employee.")
+			else:
+				print(f"\n\"{ui}\" is either not an option or not valid right now!")
+	else:
+		print(f"You re-enter ")
 
 def map():
 	global floor
@@ -27,7 +60,7 @@ def encounter_006_SeesCandy():
 	global inventory
 	global e_006SeesCandy
 	if e_006SeesCandy != 1:
-		print(f"You enter the See's Candy store and tell your objective to the lady behind the counter.\nShe explains to you that she doesn't have the authority to make a \"trade\" with you.\nShe can offer a free dark chocolate sample though.")
+		print(f"\nYou enter the See's Candy store and tell your objective to the lady behind the counter.\nShe explains to you that she doesn't have the authority to make a \"trade\" with you.\nShe can offer a free dark chocolate sample though.")
 		inventory.append(f"Dark Chocolate Sample")
 		print(f"\n+ Dark Chocolate Sample\n")
 		e_006SeesCandy = 1
@@ -36,12 +69,9 @@ def encounter_006_SeesCandy():
 	else:
 		print(f"You approach the See's candy but then remember that you've already recieved a free sample from them.")
 
-def encounter_007():
-	print("7")
-
 def encounter_005():
 	ui = None
-	print(f"To your left you see a See's Candy store.")
+	print(f"To your left you see a See's Candy store and to your right a local sporting goods shop.")
 	while ui != "north":
 		ui = input()
 		if ui == "north":
@@ -50,6 +80,8 @@ def encounter_005():
 			encounter_004_MallEntrance()
 		elif ui == "west":
 			encounter_006_SeesCandy()
+		elif ui == "east":
+			encounter_007_SportingGoods()
 		elif ui == "inventory":
 			print(f"\n{inventory}\n")
 		elif ui == "map":
