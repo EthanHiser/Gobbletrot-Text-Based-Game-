@@ -8,54 +8,89 @@ e_003trade = None
 e_004inorout = None
 e_006SeesCandy = None
 e_007trade = None
-floor = 1
 
-def encounter_007_SportingGoods():
+def encounter_006_GameStore():
+	ui = None
+	print(f"You enter the local games and comics store and see a glowing room, one wall lined with console games,\ncomic books are stacked on central trays, and collector's items can be found about.")
+	while ui != "east":
+		ui = input()
+		if ui == "east":
+			encounter_006()
+		elif ui == "trade":
+			if "Louis Viutton Bag" and "Sapphire Pendant" and "Silver Band" and "Gold Watch" and "Elegant Hat" and "Ruby Necklace" in inventory:
+				print("You deposit your greatest goods onto the counter: the sapphire pendant, golden watch, ruby necklace, and more.\nThe now intrigued store owner looks at you, then the goods. \"Okayyyyy, uhh... Tell you what,\nyou can have one item from my store, anything.\"")
+				while ui != "1":
+					ui = None
+					print()
+					input = print(f"You look around and see some pretty fine choices:\n1. The newest PlayStation console\n2. What looks like a half-opened bag of Cheetos\n3. An original MTV GameCube\n4. The latest edition Xbox")
+					if ui == "1":
+						print(f"You walk out of the mall and back to your car triumphantly with your new PlayStation console.")
+					elif ui == "2":
+						print(f"Leaving the mall with perhaps less than what you entered with, you feel a little low, but then you realize that Cheetos are simply awesome.")
+					elif ui == "3":
+						print(f"You exit the mall and re-enter your car with a priceless collector's item and a brand new gaming console to impress your friends.")
+					elif ui == "4":
+						print(f"You leave the mall and back to your car with your new Xbox console.")
+				print()
+				print(f"Congratulations, you have now completed Red Paperclip!/\n							Thanks for playing, and have a great rest of your day/night!")
+				exit()
+			else:
+				print(f"No good!")
+
+def encounter_006():
+	ui = None
+	print(f"On your left, next to the See's Candy, you see a local games and comics store. To your right is a small clothing bussiness.")
+	while ui != "north":
+		ui = input()
+		if ui == "north":
+			encounter_007()
+		elif ui == "south":
+			encounter_005()
+		elif ui == "west":
+			encounter_006_GameStore()
+		elif ui == "east":
+			encounter_006_ClothingStore()
+		elif ui == "inventory":
+			print(f"\n{inventory}\n")
+		else:
+			print(f"\n\"{ui}\" is either not an option or not valid right now!")
+def encounter_005_SportingGoods():
 	ui = None
 	global inventory
 	global e_007trade
 	if e_007trade != 1:
 		print(f"You enter a local sporting goods store, the employee motions for you to go towards the counter.\nHe asks you \"Hey, do you see that guy over there? He's local basketball legend ShraBaum DeShaum!\nI've always wanted to get his autograph, do you have a pen?\"")
+	else:
+		print(f"You re-enter the sporting goods store and see the cashier and local legend ShraBaum DeShaum.")
+	while ui != "west":
 		ui = input()
-		while ui != "west":
-			if ui == "map":
-				map()
-			elif ui == "inventory":
-				print(f"{inventory}")
-			elif ui == "west":
-				encounter_005()
-			elif ui == "yes" or "y" or "trade":
-				if "Wooden Pen" or "Employee's Pen" in inventory:
-					print(f"You hand your pen to the employee, he exclaims \"Yes! Thank you, uh... here, have this!\"")
-					print(f"\n+ Collapsable Fishing Rod\n- Pen")
-					inventory.append("Collapsable Fishing Rod")
-					if "Wooden Pen" in inventory:
-						inventory.remove("Wooden Pen")
-						e_007trade = 1
-					else:
-						inventory.remove("Employee's Pen")
-						e_007trade = 1
+		if ui == "inventory":
+			print(f"{inventory}")
+		elif ui == "west":
+			encounter_005()
+		elif ui == "trade":
+			if "Wooden Pen" in inventory:
+				print(f"You hand your pen to the employee, he exclaims \"Yes! Thank you, uh... here, have this!\"")
+				print(f"\n+ Collapsable Fishing Rod\n- Pen")
+				inventory.append("Collapsable Fishing Rod")
+				if "Wooden Pen" in inventory:
+					inventory.remove("Wooden Pen")
+					e_007trade = 1
 				else:
-					print(f"You unfortunately do not have a pen to give to the employee.")
+					inventory.remove("Employee's Pen")
+					e_007trade = 1
 			else:
-				print(f"\n\"{ui}\" is either not an option or not valid right now!")
-	else:
-		print(f"You re-enter ")
-
-def map():
-	global floor
-	if floor == 1:
-		print(f"""\nmap1\n""")
-	else:
-		print(f"""\nmap2\n""")
+				print(f"You unfortunately do not have a pen to give to the employee.")
+		else:
+			print(f"\n\"{ui}\" is either not an option or not valid right now!")
 
 def intro():
 	global ui
-	first = input(f"""-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n	Welcome to Red Paperclip\n\n A trading game where you use your red paperclip\nto get bigger and better items.\n\nYour in-game commands: "north", "south", "east",\n "west", "grab", "inventory", "map", "trade", and "interact"\n\n				    Have fun!\n\n	/// Press enter to continue. ///\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n""")
+	first = input(f"""-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n	Welcome to Red Paperclip\n\n A trading game where you use your red paperclip\nto get bigger and better items.\n\nYour in-game commands: "north", "south", "east",\n "west", "grab", "inventory", "trade", and "interact"\n\n				    Have fun!\n\n	/// Press enter to continue. ///\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n""")
 	print()
 intro()
 
-def encounter_006_SeesCandy():
+def encounter_005_SeesCandy():
 	ui = None
 	global inventory
 	global e_006SeesCandy
@@ -71,21 +106,19 @@ def encounter_006_SeesCandy():
 
 def encounter_005():
 	ui = None
-	print(f"To your left you see a See's Candy store and to your right a local sporting goods shop.")
+	print(f"To your left you see a See's Candy store and on your right a local sporting goods shop.")
 	while ui != "north":
 		ui = input()
 		if ui == "north":
-			encounter_007()
+			encounter_006()
 		elif ui == "south":
 			encounter_004_MallEntrance()
 		elif ui == "west":
-			encounter_006_SeesCandy()
+			encounter_005_SeesCandy()
 		elif ui == "east":
-			encounter_007_SportingGoods()
+			encounter_005_SportingGoods()
 		elif ui == "inventory":
 			print(f"\n{inventory}\n")
-		elif ui == "map":
-			map()
 		else:
 			print(f"\n\"{ui}\" is either not an option or not valid right now!")
 
@@ -95,7 +128,7 @@ def encounter_001_ParkingLot():
 	if e_001ParkingLot != 1:
 		print(f"You close the door of your old sedan and turn towards the Carlsen Mall, in front of it the weekend's farmers' market.\nYou have nothing but a red paperclip.")
 	else:
-		print(f"\nYou are back at the parking lot next to your car.")
+		print(f"You are back at the parking lot next to your car.")
 	while ui != "north":
 		ui = input()
 		if ui == "north":
@@ -103,8 +136,6 @@ def encounter_001_ParkingLot():
 			encounter_002_FarmersMarket()
 		elif ui == "inventory":
 			print(f"\n{inventory}\n")
-		elif ui == "map":
-			map()
 		else:
 			print(f"\n\"{ui}\" is either not an option or not valid right now!")
 			print()
@@ -128,8 +159,6 @@ def encounter_002_FarmersMarket():
 			encounter_002trade()
 		elif ui == "inventory":
 			print(f"\n{inventory}\n")
-		elif ui == "map":
-			map()
 		else:
 			print(f"\n\"{ui}\" is either not an option or not valid right now!")
 
@@ -142,9 +171,9 @@ def encounter_002trade():
 	else:
 		print(f"You walk towards the wooden pen vendor, but then remeber you've already traded with him.")
 		encounter_004_MallEntrance()
-	while ui != "trade" or "yes" or "y":
+	while ui != "trade":
 		ui = input()
-		if ui == "trade" or "yes" or "y":
+		if ui == "trade":
 			print(f"\nYou explain your quest to the elderly man behind the stand. He looks at you with a confused face then laughs\nsaying \"Sure buddy, I'm sure a paperclip is going to bring you real far. You can have this old pen, it's nearly outta ink anyways.\"\n")
 			inventory.remove("Red Paperclip")
 			inventory.append("Wooden Pen")
@@ -152,7 +181,7 @@ def encounter_002trade():
 			e_002trade = 1
 			encounter_004_MallEntrance()
 		else:
-			print(f"\n\"{ui}\" is not valid right now, try typing \"trade\" or \"yes\"")
+			print(f"\n\"{ui}\" is not valid right now, try typing \"trade\"")
 			print()
 
 def encounter_003_ScrapArea():
@@ -191,8 +220,6 @@ def encounter_003_ScrapArea():
 				print(f"Currently you have nothing to give to the greyhound.")
 		elif ui == "inventory":
 			print(f"\n{inventory}\n")
-		elif ui == "map":
-			map()
 		else:
 			print(f"\n\"{ui}\" is either not an option or not valid right now!")
 
@@ -212,8 +239,6 @@ def encounter_004_MallEntrance():
 			encounter_002_FarmersMarket()
 		elif ui == "inventory":
 			print(f"\n{inventory}\n")
-		elif ui == "map":
-			map()
 		else:
 			print(f"\n\"{ui}\" is either not an option or not valid right now!")
 
